@@ -17,14 +17,14 @@ def create_database(database_name: str, params: dict):
     conn.close()
 
     conn = psycopg2.connect(dbname=database_name, **params)
-    with conn.cursor() as cur:
+    with conn.cursor() as cur:          # таблица работодателей
         cur.execute("""
             CREATE TABLE employers (
                 employer_id SERIAL PRIMARY KEY,
                 employer_name VARCHAR(255) NOT NULL
             )
         """)
-    with conn.cursor() as cur:
+    with conn.cursor() as cur:          # таблица вакансий
         cur.execute("""
             CREATE TABLE vacancies (
                 vacancy_id SERIAL PRIMARY KEY,
@@ -60,7 +60,7 @@ def save_data_to_database(data: list[dict[str, Any]], database_name: str, params
             for vacancy in vacancies_data:
                 valid_vacancy = Vacancies(vacancy["name"], vacancy["salary"]["from"],
                                           vacancy["salary"]["to"], vacancy["area"]["name"],
-                                          vacancy["alternate_url"])
+                                          vacancy["alternate_url"])         # валидация данных вакансии
                 cur.execute(
                     """
                     INSERT INTO vacancies (vacancy_id, employer_id, job_title, salary,
