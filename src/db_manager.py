@@ -61,7 +61,7 @@ class DBManager:
         try:
             with conn:
                 with conn.cursor() as cur:
-                    cur.execute("SELECT AVG(salary) AS average_salary FROM vacancies")
+                    cur.execute("SELECT AVG(salary) FROM vacancies")
                     rows = cur.fetchall()
                     # print(rows)
         finally:
@@ -77,8 +77,9 @@ class DBManager:
         try:
             with conn:
                 with conn.cursor() as cur:
-                    cur.execute("SELECT * FROM vacancies"
-                                "WHERE salary > (SELECT AVG(salary) FROM vacancies)")
+                    cur.execute("SELECT * FROM vacancies "
+                                "WHERE salary > (SELECT AVG(salary) FROM vacancies) "
+                                "ORDER BY salary")
                     rows = cur.fetchall()
                     # print(rows)
         finally:
